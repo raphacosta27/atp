@@ -430,7 +430,7 @@
     <created_date>2019/11/14 11:25:43.779</created_date>
     <modified_user>-</modified_user>
     <modified_date>2019/11/14 11:25:43.779</modified_date>
-    <key_for_session_key />
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -587,46 +587,16 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Group by</from>
+      <from>Sort rows</from>
+      <to>Group by 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Group by 2</from>
       <to>Table output 2</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Table input</name>
-    <type>TableInput</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>data source</connection>
-    <sql>SELECT ATP, Location, Tournament, `Date` as dia, `Date` as mes, `Date` as ano, Series, Court, Surface, Round, `Best of`,
-Winner, Loser, WRank, LRank, WPts, LPts, W1, L1, W2, L2, W3, L3, W4, L4, W5, L5, Wsets, Lsets, Comment, B365W,
-B365L, EXW, EXL, PSW, PSL, MaxW, MaxL, AvgW, AvgL
-FROM atp</sql>
-    <limit>0</limit>
-    <lookup />
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Combination court</name>
     <type>CombinationLookup</type>
@@ -679,7 +649,7 @@ FROM atp</sql>
     </GUI>
   </step>
   <step>
-    <name>Combination tournament</name>
+    <name>Combination data</name>
     <type>CombinationLookup</type>
     <description />
     <distribute>Y</distribute>
@@ -690,7 +660,7 @@ FROM atp</sql>
       <schema_name />
     </partitioning>
     <schema />
-    <table>dimtournament</table>
+    <table>dimdate</table>
     <connection>groupk</connection>
     <commit>100</commit>
     <cache_size>9999</cache_size>
@@ -700,23 +670,19 @@ FROM atp</sql>
     <crcfield>hashcode</crcfield>
     <fields>
       <key>
-        <name>Tournament</name>
-        <lookup>Tournament</lookup>
+        <name>dia</name>
+        <lookup>dia</lookup>
       </key>
       <key>
-        <name>Location</name>
-        <lookup>Location</lookup>
+        <name>mes</name>
+        <lookup>mes</lookup>
       </key>
       <key>
-        <name>ATP</name>
-        <lookup>ATP</lookup>
-      </key>
-      <key>
-        <name>Series</name>
-        <lookup>Series</lookup>
+        <name>ano</name>
+        <lookup>ano</lookup>
       </key>
       <return>
-        <name>idTournament</name>
+        <name>idDate</name>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
       </return>
@@ -732,8 +698,8 @@ FROM atp</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>96</yloc>
+      <xloc>272</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -801,7 +767,7 @@ FROM atp</sql>
     </GUI>
   </step>
   <step>
-    <name>Combination data</name>
+    <name>Combination tournament</name>
     <type>CombinationLookup</type>
     <description />
     <distribute>Y</distribute>
@@ -812,7 +778,7 @@ FROM atp</sql>
       <schema_name />
     </partitioning>
     <schema />
-    <table>dimdate</table>
+    <table>dimtournament</table>
     <connection>groupk</connection>
     <commit>100</commit>
     <cache_size>9999</cache_size>
@@ -822,19 +788,23 @@ FROM atp</sql>
     <crcfield>hashcode</crcfield>
     <fields>
       <key>
-        <name>dia</name>
-        <lookup>dia</lookup>
+        <name>Tournament</name>
+        <lookup>Tournament</lookup>
       </key>
       <key>
-        <name>mes</name>
-        <lookup>mes</lookup>
+        <name>Location</name>
+        <lookup>Location</lookup>
       </key>
       <key>
-        <name>ano</name>
-        <lookup>ano</lookup>
+        <name>ATP</name>
+        <lookup>ATP</lookup>
+      </key>
+      <key>
+        <name>Series</name>
+        <lookup>Series</lookup>
       </key>
       <return>
-        <name>idDate</name>
+        <name>idTournament</name>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
       </return>
@@ -850,153 +820,8 @@ FROM atp</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select tempo</name>
-    <type>SelectValues</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>dia</name>
-        <rename>dia</rename>
-        <type>Date</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy/MM/dd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale />
-        <date_format_timezone />
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding />
-        <decimal_symbol />
-        <grouping_symbol />
-        <currency_symbol />
-        <storage_type />
-      </meta>
-      <meta>
-        <name>mes</name>
-        <rename>mes</rename>
-        <type>Date</type>
-        <length>14</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy-MM</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale />
-        <date_format_timezone />
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding />
-        <decimal_symbol />
-        <grouping_symbol />
-        <currency_symbol />
-        <storage_type />
-      </meta>
-      <meta>
-        <name>ano</name>
-        <rename>ano</rename>
-        <type>Date</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale />
-        <date_format_timezone />
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding />
-        <decimal_symbol />
-        <grouping_symbol />
-        <currency_symbol />
-        <storage_type />
-      </meta>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory />
-    <compress>N</compress>
-    <compress_variable />
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>idCourt</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>idDate</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>idMatch</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>idTournament</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>480</xloc>
-      <yloc>240</yloc>
+      <xloc>464</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1142,6 +967,295 @@ FROM atp</sql>
     <GUI>
       <xloc>624</xloc>
       <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by 2</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>Y</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>idCourt</name>
+      </field>
+      <field>
+        <name>idDate</name>
+      </field>
+      <field>
+        <name>idMatch</name>
+      </field>
+      <field>
+        <name>idTournament</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>B365W</aggregate>
+        <subject>B365W</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>B365L</aggregate>
+        <subject>B365L</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>EXW</aggregate>
+        <subject>EXW</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>EXL</aggregate>
+        <subject>EXL</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>PSW</aggregate>
+        <subject>PSW</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>PSL</aggregate>
+        <subject>PSL</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>MaxW</aggregate>
+        <subject>MaxW</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>MaxL</aggregate>
+        <subject>MaxL</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>AvgW</aggregate>
+        <subject>AvgW</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>AvgL</aggregate>
+        <subject>AvgL</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select tempo</name>
+    <type>SelectValues</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>dia</name>
+        <rename>dia</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy/MM/dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>mes</name>
+        <rename>mes</rename>
+        <type>Date</type>
+        <length>14</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy-MM</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+      <meta>
+        <name>ano</name>
+        <rename>ano</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale />
+        <date_format_timezone />
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding />
+        <decimal_symbol />
+        <grouping_symbol />
+        <currency_symbol />
+        <storage_type />
+      </meta>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory />
+    <compress>N</compress>
+    <compress_variable />
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>idCourt</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>idDate</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>idMatch</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>idTournament</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>data source</connection>
+    <sql>SELECT ATP, Location, Tournament, `Date` as dia, `Date` as mes, `Date` as ano, Series, Court, Surface, Round, `Best of`,
+Winner, Loser, WRank, LRank, WPts, LPts, W1, L1, W2, L2, W3, L3, W4, L4, W5, L5, Wsets, Lsets, Comment, B365W,
+B365L, EXW, EXL, PSW, PSL, MaxW, MaxL, AvgW, AvgL
+FROM atp</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
