@@ -1,0 +1,40 @@
+Winner.Year x WPts
+with member [Measures].[Name] as '[Dimmatch.Match].CurrentMember.UniqueName' select NON EMPTY(TopCount( filter({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Winner]) * Descendants([Dimdate.Tempo].[All Dimdate.Tempos] ,[Dimdate.Tempo].[Ano])}, not isempty(([Dimmatch.Match].CurrentMember, [Measures].[WPts])) ) , 50, [Measures].[WPts])) on ROWS, 
+ NON EMPTY({[Measures].[Name],[Measures].[WPts]}) on Columns 
+ from [groupk_atp]
+
+
+Loser.Year x LPts
+with member [Measures].[Name] as '[Dimmatch.Match].CurrentMember.UniqueName' select NON EMPTY(TopCount( filter({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Loser]) * Descendants([Dimdate.Tempo].[All Dimdate.Tempos] ,[Dimdate.Tempo].[Ano])}, not isempty(([Dimmatch.Match].CurrentMember, [Measures].[LPts])) ) , 50, [Measures].[LPts])) on ROWS, 
+NON EMPTY({[Measures].[Name],[Measures].[WPts]}) on Columns 
+from [groupk_atp]
+
+
+
+Winner x WPts
+ select NON EMPTY({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Winner])}) on ROWS, 
+ NON EMPTY({[Measures].[WPts]}) on Columns 
+ from [groupk_atp]
+
+ Winner x WRank
+  select NON EMPTY({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Winner])}) on ROWS, 
+ NON EMPTY({[Measures].[WRank]}) on Columns 
+ from [groupk_atp]
+
+ Loser x LPts
+  select NON EMPTY({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Loser])}) on ROWS, 
+ NON EMPTY({[Measures].[LPts]}) on Columns 
+ from [groupk_atp]
+
+ Loser x LRank
+  select NON EMPTY({Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Loser])}) on ROWS, 
+ NON EMPTY({[Measures].[LRank]}) on Columns 
+ from [groupk_atp]
+
+Surface x Winner x WPts
+    with member [Measures].[Name] as '[Dimcourt.Court].CurrentMember.UniqueName' select NON EMPTY(TopCount( filter({Descendants([Dimcourt.Court].[All Dimcourt.Courts] ,[Dimcourt.Court].[Surface]) * Descendants([Dimmatch.Match].[All Dimmatch.Matchs] ,[Dimmatch.Match].[Winner])}, not isempty(([Dimcourt.Court].CurrentMember, [Measures].[WPts])) ) , 50, [Measures].[WPts])) on ROWS, 
+ NON EMPTY({[Measures].[Name],[Measures].[WPts]}) on Columns 
+ from [groupk_atp]
+
+
+
